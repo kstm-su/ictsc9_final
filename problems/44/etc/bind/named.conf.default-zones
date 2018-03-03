@@ -1,0 +1,34 @@
+view "internal" {
+	match-clients {
+		127.0.0.1;
+		192.168.4.64/26;
+	};
+	zone "64.4.168.192.in-addr.arpa" {
+		type master;
+		file "/etc/bind/64.4.168.192.in-addr.arpa";
+	};
+
+	zone "ictsc.local" {
+		type master;
+		file "/etc/bind/ictsc.local-64.zone";
+	};
+	forwarders {
+		8.8.8.8;
+	};
+	forward only;
+};
+
+view "external" {
+	match-clients { 
+		192.168.4.0/26;
+	};
+	zone "0.4.168.192.in-addr.arpa" {
+		type master;
+		file "/etc/bind/0.4.168.192.in-addr.arpa";
+	};
+
+	zone "ictsc.local" {
+		type master;
+		file "/etc/bind/ictsc.local-0.zone";
+	};
+};
