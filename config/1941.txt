@@ -1,12 +1,14 @@
 C1941#show run
-Load for five secs: 0%/0%; one minute: 0%; five minutes: 0%
-Time source is hardware calendar, 04:35:10.591 UTC Sat Mar 3 2018
+Load for five secs: 0%/0%; one minute: 0%; five minutes: 1%
+Time source is hardware calendar, 05:10:23.147 UTC Sat Mar 3 2018
 
 Building configuration...
 
-Current configuration : 7463 bytes
+Current configuration : 7579 bytes
 !
-! Last configuration change at 11:48:04 UTC Fri Mar 2 2018
+! Last configuration change at 05:01:42 UTC Sat Mar 3 2018
+! NVRAM config last updated at 05:04:06 UTC Sat Mar 3 2018
+! NVRAM config last updated at 05:04:06 UTC Sat Mar 3 2018
 version 15.1
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -53,7 +55,7 @@ ip vrf vrf24
 !
 ip dhcp pool pool11
  vrf vrf11
- network 192.168.11.0 255.255.255.128
+ network 192.168.11.0 255.255.255.0
  default-router 192.168.11.1
 !
 ip dhcp pool pool05
