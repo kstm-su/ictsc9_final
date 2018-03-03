@@ -1,0 +1,351 @@
+C1941#show run
+Load for five secs: 0%/0%; one minute: 0%; five minutes: 0%
+Time source is hardware calendar, 04:35:10.591 UTC Sat Mar 3 2018
+
+Building configuration...
+
+Current configuration : 7463 bytes
+!
+! Last configuration change at 11:48:04 UTC Fri Mar 2 2018
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname C1941
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$Dcro$M16nf0aKGFcgQw2LZeRK1/
+!
+aaa new-model
+!
+!
+aaa authentication login LINE-PASS line
+aaa authentication ppp L2TP local
+aaa authorization network L2TP local
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+no ipv6 cef
+ip source-route
+ip cef
+!
+!
+!
+ip vrf vrf00
+!
+ip vrf vrf05
+!
+ip vrf vrf11
+!
+ip vrf vrf23
+!
+ip vrf vrf24
+!
+!
+ip dhcp pool pool11
+ vrf vrf11
+ network 192.168.11.0 255.255.255.128
+ default-router 192.168.11.1
+!
+ip dhcp pool pool05
+ vrf vrf05
+ network 192.168.39.0 255.255.255.0
+ default-router 192.168.39.1
+!
+ip dhcp pool POOL15
+ network 192.168.15.128 255.255.255.192
+ default-router 192.168.15.190
+!
+ip dhcp pool pool24
+ vrf vrf24
+ network 192.168.25.0 255.255.255.128
+ default-router 192.168.25.1
+!
+!
+no ip domain lookup
+ip inspect name ip-ipcp dns timeout 5
+ip inspect name ip-ipcp http timeout 5
+ip inspect name ip-ipcp https timeout 5
+ip inspect name ip-ipcp l2tp timeout 5
+ip inspect name ip-ipcp login timeout 5
+ip inspect name ip-ipcp pop3 timeout 5
+ip inspect name ip-ipcp pop3s timeout 5
+ip inspect name ip-ipcp sip timeout 5
+ip inspect name ip-ipcp pptp timeout 5
+ip inspect name ip-ipcp snmptrap timeout 5
+ip inspect name ip-ipcp ssh timeout 5
+ip inspect name ip-ipcp sshell timeout 5
+ip inspect name ip-ipcp icmp timeout 5
+ip inspect name ip-ipcp ntp timeout 5
+ip inspect name ip-ipcp tcp timeout 5
+ip inspect name ip-ipcp udp timeout 5
+ip inspect name ip-ipcp socks timeout 5
+ip inspect name ip-ipcp ftps timeout 5
+ip inspect name ip-ipcp time timeout 5
+ip inspect name ip-ipcp timed timeout 5
+ip inspect name ip-ipcp bootpc timeout 5
+ip inspect name ip-ipcp bootps timeout 5
+ip inspect name ip-ipcp ddns-v3 timeout 5
+ip inspect name ip-ipcp ipsec-msft timeout 5
+ip inspect name ip-ipcp isakmp timeout 5
+ip inspect name ip-ipcp hsrp timeout 5
+ip inspect name ip-ipcp radius timeout 5
+!
+multilink bundle-name authenticated
+!
+vpdn enable
+!
+vpdn-group L2TP
+ ! Default L2TP VPDN group
+ accept-dialin
+  protocol l2tp
+  virtual-template 1
+ no l2tp tunnel authentication
+!
+crypto pki token default removal timeout 0
+!
+!
+license udi pid CISCO1941/K9 sn FGL15432026
+license boot module c1900 technology-package securityk9
+!
+!
+username vpn password 0 vpn
+!
+redundancy
+!
+!
+!
+!
+!
+crypto keyring L2TP
+  pre-shared-key address 0.0.0.0 0.0.0.0 key ictsc9
+!
+crypto isakmp policy 5
+ encr 3des
+ authentication pre-share
+ group 2
+ lifetime 3600
+!
+!
+crypto ipsec transform-set 3DES_SHA_TRANSPORT esp-3des esp-sha-hmac
+ mode transport
+!
+crypto dynamic-map DMAP_L2TP 10
+ set nat demux
+ set transform-set 3DES_SHA_TRANSPORT
+!
+!
+crypto map CRYPTO_MAP_L2TP 1 ipsec-isakmp dynamic DMAP_L2TP
+!
+!
+!
+!
+!
+interface Loopback51
+ ip address 192.168.15.126 255.255.255.192
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.1018
+ encapsulation dot1Q 1018
+ ip vrf forwarding vrf05
+ ip address 192.168.38.39 255.255.255.0
+!
+interface GigabitEthernet0/0.1019
+ encapsulation dot1Q 1019
+ ip vrf forwarding vrf05
+ ip address 192.168.39.1 255.255.255.0
+!
+interface GigabitEthernet0/0.1036
+ encapsulation dot1Q 1036
+ ip nat outside
+ ip virtual-reassembly in
+ pppoe enable group global
+ pppoe-client dial-pool-number 11
+!
+interface GigabitEthernet0/0.1037
+ encapsulation dot1Q 1037
+ ip vrf forwarding vrf11
+ ip address 192.168.11.1 255.255.255.128
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.1050
+ encapsulation dot1Q 1000
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.1052
+ encapsulation dot1Q 1052
+ ip address 192.168.15.190 255.255.255.192
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.1071
+ encapsulation dot1Q 1071
+ ip vrf forwarding vrf23
+ ip address 192.168.24.2 255.255.255.0
+!
+interface GigabitEthernet0/0.1074
+ encapsulation dot1Q 1074
+ ip vrf forwarding vrf24
+ ip address 192.168.25.129 255.255.255.128
+ ip access-group ip-udp-no in
+ ip nat outside
+ ip inspect ip-ipcp out
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.1075
+ encapsulation dot1Q 1075
+ ip vrf forwarding vrf24
+ ip address 192.168.25.1 255.255.255.128
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.1090
+ encapsulation dot1Q 1090
+ ip vrf forwarding vrf00
+ ip address 192.168.127.4 255.255.255.0
+!
+interface GigabitEthernet0/1
+ ip vrf forwarding vrf23
+ ip address 192.168.23.66 255.255.255.192
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ shutdown
+ no fair-queue
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Virtual-Template15
+ ip unnumbered Loopback51
+ ip virtual-reassembly in
+ peer default ip address pool L2TP_VPN_POOL
+ ppp authentication chap ms-chap-v2 L2TP
+ ppp authorization L2TP
+!
+interface Dialer11
+ ip vrf forwarding vrf11
+ ip address negotiated
+ ip mtu 1454
+ encapsulation ppp
+ dialer pool 11
+ dialer-group 11
+ ppp authentication chap callin
+ ppp chap hostname ADMIN
+ ppp chap password 0 PASSWORD
+ ppp ipcp route default
+!
+router ospf 23 vrf vrf23
+ network 192.168.23.64 0.0.0.63 area 23
+ default-information originate
+!
+router rip
+ !
+ address-family ipv4 vrf vrf05
+  network 192.168.38.0
+  network 192.168.39.0
+  no auto-summary
+ exit-address-family
+!
+ip local pool L2TP_VPN_POOL 192.168.15.100 192.168.15.120
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip nat inside source list 11 interface GigabitEthernet0/0.1036 overload
+ip nat inside source list PAT interface GigabitEthernet0/0.1050 overload
+ip nat inside source list ACL24 interface GigabitEthernet0/0.1074 vrf vrf24 overload
+ip route 0.0.0.0 0.0.0.0 192.168.0.254 254
+ip route vrf vrf00 0.0.0.0 0.0.0.0 192.168.127.254
+ip route vrf vrf23 0.0.0.0 0.0.0.0 192.168.24.1
+ip route vrf vrf24 0.0.0.0 0.0.0.0 192.168.25.254 permanent
+!
+ip access-list extended ACL24
+ permit ip 192.168.25.0 0.0.0.127 any
+ip access-list extended PAT
+ permit ip 192.168.15.64 0.0.0.63 any
+ip access-list extended ip-udp-no
+ deny   ip any any
+!
+access-list 11 permit 192.168.11.0 0.0.0.127
+dialer-list 11 protocol ip permit
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+banner motd ^C
+.___  _________   ___________   _________ _________      ________
+|   | \_   ___ \  \__    ___/  /   _____/ \_   ___ \    /   __   \
+|   | /    \  \/    |    |     \_____  \  /    \  \/    \____    /
+|   | \     \____   |    |     /        \ \     \____      /    /
+|___|  \______  /   |____|    /_______  /  \______  /     /____/
+              \/                      \/          \/
+
+               ========Be cerefull VRF!!!========
+^C
+!
+line con 0
+ exec-timeout 3 0
+ password ZWKKEFzV
+ logging synchronous
+ login authentication LINE-PASS
+ exec prompt timestamp
+line aux 0
+ exec-timeout 0 1
+ password ZWKKEFzV
+ login authentication LINE-PASS
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport input all
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ password ZWKKEFzV
+ login authentication LINE-PASS
+ transport input all
+line vty 5 15
+ password ZWKKEFzV
+ login authentication LINE-PASS
+ transport input all
+!
+scheduler allocate 20000 1000
+end
+
+C1941#
