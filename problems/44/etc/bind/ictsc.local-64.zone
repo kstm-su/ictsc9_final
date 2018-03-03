@@ -5,7 +5,7 @@ IN	SOA	dns.ictsc.local.	root.ictsc.local (
 	900
 	604800
 	86400
-}
+)
 
 	IN	NS	dns.ictsc.local.
 dns	IN	A	192.168.4.70
