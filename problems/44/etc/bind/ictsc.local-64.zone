@@ -1,5 +1,5 @@
 $TTL 3600
-IN	SOA	dns.ictsc.local.	root.ictsc.local (
+@ IN	SOA	dns.ictsc.local.	root.ictsc.local (
 	2018022400
 	3600
 	900
