@@ -1,0 +1,216 @@
+#Last modified by operator at Sat Jan  1 19:59:13 2000 with version 11.7.L
+!
+hostname "ALA-B"
+!
+vlan 1
+  name "VLAN0001"
+!
+vlan 1058
+!
+vlan 1059
+!
+vlan 1060
+!
+vlan 1061
+!
+vlan 1062
+!
+spanning-tree disable
+spanning-tree mode pvst
+!
+interface port-channel 1
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1062
+  axrp-ring-port 1
+  gsrp 1 direct-link
+!
+interface port-channel 2
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1059,1061-1062
+  axrp-ring-port 1
+!
+interface gigabitethernet 0/1
+  switchport mode access
+!
+interface gigabitethernet 0/2
+  switchport mode access
+!
+interface gigabitethernet 0/3
+  switchport mode access
+!
+interface gigabitethernet 0/4
+  switchport mode access
+!
+interface gigabitethernet 0/5
+  switchport mode access
+!
+interface gigabitethernet 0/6
+  switchport mode access
+!
+interface gigabitethernet 0/7
+  switchport mode access
+!
+interface gigabitethernet 0/8
+  switchport mode access
+!
+interface gigabitethernet 0/9
+  switchport mode access
+!
+interface gigabitethernet 0/10
+  switchport mode access
+!
+interface gigabitethernet 0/11
+  switchport mode access
+!
+interface gigabitethernet 0/12
+  switchport mode access
+!
+interface gigabitethernet 0/13
+  switchport mode access
+!
+interface gigabitethernet 0/14
+  switchport mode access
+!
+interface gigabitethernet 0/15
+  switchport mode access
+!
+interface gigabitethernet 0/16
+  switchport mode access
+!
+interface gigabitethernet 0/17
+  switchport mode access
+!
+interface gigabitethernet 0/18
+  switchport mode access
+!
+interface gigabitethernet 0/19
+  switchport mode access
+!
+interface gigabitethernet 0/20
+  switchport mode access
+!
+interface gigabitethernet 0/21
+  switchport mode access
+!
+interface gigabitethernet 0/22
+  switchport mode access
+!
+interface gigabitethernet 0/23
+  switchport mode access
+!
+interface gigabitethernet 0/24
+  switchport mode access
+!
+interface gigabitethernet 0/25
+  switchport mode access
+!
+interface gigabitethernet 0/26
+  switchport mode access
+!
+interface gigabitethernet 0/27
+  switchport mode access
+!
+interface gigabitethernet 0/28
+  switchport mode access
+!
+interface gigabitethernet 0/29
+  switchport mode access
+!
+interface gigabitethernet 0/30
+  switchport mode access
+!
+interface gigabitethernet 0/31
+  switchport mode access
+!
+interface gigabitethernet 0/32
+  switchport mode access
+!
+interface gigabitethernet 0/33
+  link debounce time 0
+  switchport mode access
+  switchport access vlan 1061
+  gsrp 1 reset-flush-port
+!
+interface gigabitethernet 0/34
+  switchport mode access
+!
+interface gigabitethernet 0/35
+  link debounce time 0
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1062
+  gsrp 1 direct-link
+  channel-group 1 mode active
+!
+interface gigabitethernet 0/36
+  link debounce time 0
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1062
+  gsrp 1 direct-link
+  channel-group 1 mode active
+!
+interface gigabitethernet 0/37
+  link debounce time 0
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1059,1061-1062
+  channel-group 2 mode active
+!
+interface gigabitethernet 0/38
+  link debounce time 0
+  switchport mode trunk
+  switchport trunk allowed vlan 1058-1059,1061-1062
+  channel-group 2 mode active
+!
+interface gigabitethernet 0/39
+  switchport mode access
+!
+interface gigabitethernet 0/40
+  switchport mode access
+!
+interface gigabitethernet 0/41
+  switchport mode access
+!
+interface gigabitethernet 0/42
+  switchport mode access
+!
+interface gigabitethernet 0/43
+  switchport mode access
+!
+interface gigabitethernet 0/44
+  switchport mode access
+!
+interface gigabitethernet 0/45
+  switchport mode access
+!
+interface gigabitethernet 0/46
+  switchport mode access
+!
+interface gigabitethernet 0/47
+  switchport mode access
+!
+interface gigabitethernet 0/48
+  switchport mode access
+!
+interface tengigabitethernet 0/49
+  switchport mode access
+!
+interface tengigabitethernet 0/50
+  switchport mode access
+!
+interface vlan 1
+!
+axrp virtual-link 1 vlan 1059
+axrp vlan-mapping 1 vlan 1059,1061-1062
+!
+axrp 1
+  mode transit
+  control-vlan 1058
+  vlan-group 1 vlan-mapping 1
+!
+gsrp 1
+  gsrp-vlan 1060
+  advertise-holdtime 3
+  advertise-interval 0.5
+  no-neighbor-to-master direct-down
+  vlan-group 1 vlan 1059,1061-1062
+  vlan-group 1 priority 200
+!

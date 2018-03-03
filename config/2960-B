@@ -1,0 +1,193 @@
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname 2960-B
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$FNT6$t0WRNT6574RRfBKBhQof11
+!
+no aaa new-model
+system mtu routing 1500
+vtp mode transparent
+ip subnet-zero
+!
+!
+no ip igmp snooping
+!
+!
+crypto pki trustpoint TP-self-signed-946593152
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-946593152
+ revocation-check none
+ rsakeypair TP-self-signed-946593152
+!
+!
+crypto pki certificate chain TP-self-signed-946593152
+ certificate self-signed 01
+  3082023D 308201A6 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 39343635 39333135 32301E17 0D393330 33303130 30303130
+  305A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3934 36353933
+  31353230 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  965287FE 0FB5F854 02B67347 1EDE20D7 0CD6595D BAC4B9D2 3D332B00 FC15A201
+  75AB0F54 5CE3DCAC B27AD8B8 54268C77 AD9249E2 B12C42E8 6C2829DE 74643553
+  33B90C0B CD6B8558 DC551400 46FB1D88 DA3F8DB1 2F3280E7 A043D5B5 1BF68318
+  7204D2E9 4790049E B6CBB6E5 A41DA3CF 57F0037B F332668C 87E48834 3878E1CD
+  02030100 01A36730 65300F06 03551D13 0101FF04 05300301 01FF3012 0603551D
+  11040B30 09820732 3936302D 422E301F 0603551D 23041830 1680140C 517F5078
+  A99BD3A9 A8ECB018 5B69226C DF9F2930 1D060355 1D0E0416 04140C51 7F5078A9
+  9BD3A9A8 ECB0185B 69226CDF 9F29300D 06092A86 4886F70D 01010405 00038181
+  001A4F02 C2C454FF 3C8C946C 7D282059 25503FA4 FFFEA19E D980F09D 06939266
+  24750D2C B6011CDB 16CFC524 EE2395D4 6F175FF7 8C68EEC3 D0335459 ED4C538E
+  F058B4FB 9A9045CD 61ABA707 8514DC09 912E8FC3 83125EB2 B3D81B6A 2AE12B79
+  C788C825 4D666380 D126AE4D A0E9459F 21905BBC 48403F32 620AE21F 05122FDA E8
+  quit
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+no spanning-tree vlan 1061
+!
+vlan internal allocation policy ascending
+!
+vlan 1000-1001,1006-1099
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 1019
+ switchport mode access
+!
+interface FastEthernet0/2
+ switchport access vlan 1041
+ switchport mode access
+!
+interface FastEthernet0/3
+ switchport access vlan 1037
+ switchport mode access
+!
+interface FastEthernet0/4
+ switchport access vlan 1045
+ switchport mode access
+!
+interface FastEthernet0/5
+ switchport access vlan 1061
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 1052
+ switchport mode access
+!
+interface FastEthernet0/7
+ switchport access vlan 1075
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 1015
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 1054
+ switchport mode access
+!
+interface FastEthernet0/10
+ switchport access vlan 1054
+ switchport mode access
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+ switchport mode trunk
+!
+interface FastEthernet0/14
+ switchport mode trunk
+!
+interface FastEthernet0/15
+ switchport mode trunk
+!
+interface FastEthernet0/16
+ switchport mode trunk
+!
+interface FastEthernet0/17
+ switchport access vlan 1061
+ switchport mode access
+!
+interface FastEthernet0/18
+ switchport access vlan 1061
+ switchport mode access
+!
+interface FastEthernet0/19
+ switchport access vlan 1061
+ switchport mode access
+!
+interface FastEthernet0/20
+ switchport access vlan 1061
+ switchport mode access
+!
+interface FastEthernet0/21
+ switchport mode trunk
+!
+interface FastEthernet0/22
+ switchport mode trunk
+!
+interface FastEthernet0/23
+ switchport mode trunk
+!
+interface FastEthernet0/24
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport access vlan 1000
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+!
+interface Vlan1090
+ ip address 192.168.127.2 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.127.254
+ip http server
+ip http secure-server
+!
+control-plane
+!
+banner motd ^C
+.___  _________   ___________   _________ _________      ________
+|   | \_   ___ \  \__    ___/  /   _____/ \_   ___ \    /   __   \
+|   | /    \  \/    |    |     \_____  \  /    \  \/    \____    /
+|   | \     \____   |    |     /        \ \     \____      /    /
+|___|  \______  /   |____|    /_______  /  \______  /     /____/
+              \/                      \/          \/    
+^C
+!
+line con 0
+ password Dan3ckyA
+ logging synchronous
+ login
+ exec prompt timestamp
+line vty 0 4
+ password Dan3ckyA
+ login
+line vty 5 15
+ password Dan3ckyA
+ login
+!
+end
