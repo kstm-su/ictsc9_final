@@ -1,0 +1,8 @@
+[Unit]
+Description = boyoyon server
+After = networking.service
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/ubuntu/src/main.py
+[Install]
+WantedBy=multi-user.target
